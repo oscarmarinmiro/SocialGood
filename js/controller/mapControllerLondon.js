@@ -50,49 +50,7 @@ tdviz.controller.mapController = function(options)
     self.travelModes = ['DRIVING', 'WALKING', 'BICYCLING', 'TRANSIT'];
     self.routeColors = {'routesDRIVING': '#DF7529', 'routesWALKING': '#FAD232', 'routesBICYCLING': '#1CB88B', 'routesTRANSIT': '#42B8DD'};
     self.directionsService = new google.maps.DirectionsService();
-    
-    self.calcRoute = function(originLatLng, destinationLatLng, selectedMode) {
-      var request = {
-        origin: originLatLng,
-        destination: destinationLatLng,
-        travelMode: google.maps.TravelMode[selectedMode]
-      };
-      self.directionsService.route(request, function(response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-          var result = new Object();
-          result.travelMode = response.Xb.travelMode;
-          result.distance = response.routes[0].legs[0].distance.value; //in meters
-          result.duration = response.routes[0].legs[0].duration.value; //in seconds
-          result.path = new Array();
-          $.each(response.routes[0].overview_path, function(index, item){
-            result.path.push([item.pb, item.ob]);
-          });
-          result.steps = new Array();
-          $.each(response.routes[0].legs[0].steps, function(index, item){
-            var temp = new Object();
-            temp.distance = item.distance.value; //in meters
-            temp.duration = item.duration.value; //in seconds
-            temp.travelMode = item.travel_mode;
-            temp.path = new Array();
-            $.each(item.path, function(idx, itm){
-              temp.path.push([itm.pb, itm.ob]);
-            });
-            if (item.travel_mode == "TRANSIT") {
-              temp.departureStop = new Object();
-              temp.departureStop.name = item.transit.departure_stop.name;
-              temp.departureStop.location = [item.transit.departure_stop.location.pb,item.transit.departure_stop.location.ob];
-              temp.arrivalStop = new Object();
-              temp.arrivalStop.name = item.transit.arrival_stop.name;
-              temp.arrivalStop.location = [item.transit.arrival_stop.location.pb,item.transit.arrival_stop.location.ob];
-            }
-            result.steps.push(temp);
-          });
-          // Do something!!!
-          //console.log(result);
-          self.drawPath(result)
-        }
-     });
-    };
+
     self.drawPath = function(data){
       self.mapChart.emptyLayer('routes'+data.travelMode);
       var featurePath = new Object();
@@ -108,15 +66,39 @@ tdviz.controller.mapController = function(options)
       currentFeature.properties.duration = data.duration;
       currentFeature.properties.travelMode = data.travelMode;
       featurePath.features.push(currentFeature);
-      //console.log(featurePath);
       self.mapChart.render(featurePath, 'routes'+data.travelMode);
     };
+
     self.calcRoutes = function(originLat, originLng, destinationLat, destinationLng) {
       var originLatLng = new google.maps.LatLng(originLat, originLng);
       var destinationLatLng = new google.maps.LatLng(destinationLat, destinationLng);
+      var routes = new Array();
       $.each(self.travelModes, function(index, mode){
-        self.calcRoute(originLatLng, destinationLatLng, mode);
+        var request = {
+          origin: originLatLng,
+          destination: destinationLatLng,
+          travelMode: google.maps.TravelMode[mode]
+        };
+        self.directionsService.route(request, function(response, status) {
+          if (status == google.maps.DirectionsStatus.OK) {
+            var result = new Object();
+            result.travelMode = response.Xb.travelMode;
+            result.distance = response.routes[0].legs[0].distance.value; //in meters
+            result.duration = response.routes[0].legs[0].duration.value; //in seconds
+            result.path = new Array();
+            $.each(response.routes[0].overview_path, function(index, item){
+              result.path.push([item.pb, item.ob]);
+            });
+            // Do something!!!
+            routes.push(result);
+          }
+        });
       });
+      setTimeout(function(){
+        $.each(routes, function(idx, route){
+          self.drawPath(route);
+        });
+      }, 1000);
     };
     self.calcPolygonRoute = function() {
       var o = d3.geo.centroid(self.originFeature);

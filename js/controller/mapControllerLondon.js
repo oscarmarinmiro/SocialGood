@@ -123,7 +123,11 @@ tdviz.controller.mapController = function(options)
         self.moneyfootprints[mode] = (temp/1000) * self.moneyFactor;
         //console.log(self.ecofootprints);
         //console.log(self.moneyfootprints);
-        var dur = moment.duration(duration, 'seconds').humanize();
+        //var dur = moment.duration(duration, 'seconds').humanize();
+        var hours = parseInt( duration / 3600 ) % 24;
+        var minutes = parseInt( duration / 60 ) % 60;
+        var seconds = duration % 60;
+        var dur = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds  < 10 ? '0' + seconds : seconds);
         if (d3.select('#ecoresults').html() == ''){
           d3.select('#ecoresults').html('<tr><td></td><td style="text-align:center"><img src="imgs/distance_t_16.png" alt="Distance"></td>'+
                                         '<td style="text-align:center"><img src="imgs/duration_t_16.png" alt="Duration"></td>'+

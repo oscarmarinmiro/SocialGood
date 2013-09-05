@@ -42,7 +42,7 @@ tdviz.controller.mapController = function(options)
 
     self.tripSDistance = 0;
 
-    self.controlValues = {'dimension':"foots", 'direction':"S",'day':'09/12/2012','hour':'0'};
+    self.controlValues = {'dimension':"foots", 'direction':"N",'day':'09/12/2012','hour':'0'};
 
 
     // Funciones auxiliares
@@ -251,6 +251,8 @@ tdviz.controller.mapController = function(options)
     {
         if(self.controlValues['direction']=="S")
         {
+            console.log("En el source");
+
             self.selectedOrigin = d.id;
 
             d3.selectAll(".polygons").classed("origin",false);
@@ -262,7 +264,7 @@ tdviz.controller.mapController = function(options)
 
 
         }
-        else
+        if(self.controlValues['direction']=="T")
         {
             self.selectedDestination = d.id;
 
@@ -272,6 +274,15 @@ tdviz.controller.mapController = function(options)
             self.infoDestination = self.getAreaHtml(d);
 
             self.destinationFeature = d;
+
+        }
+        if(self.controlValues['direction']=="N")
+        {
+            self.selectedOrigin="none";
+            self.selectedDestination="none";
+            d3.selectAll(".polygons").classed("destination",false);
+            d3.selectAll(".polygons").classed("origin",false);
+            d3.selectAll(".polygons").classed("between",false);
 
         }
 
@@ -453,7 +464,8 @@ tdviz.controller.mapController = function(options)
                     '<div id="directionModeBox" class="controlBox">'+
                         '<span class="optionsLegend">Selection</span>'+
                         '<form>'+
-                            '<label><input type="radio" name="directionMode" value="S" checked="">Origin</label><br>'+
+                            '<label><input type="radio" name="directionMode" value="N" checked>None</label><br>'+
+                            '<label><input type="radio" name="directionMode" value="S">Origin</label><br>'+
                             '<label><input type="radio" name="directionMode" value="T">Destination</label>'+
                         '</form>'+
                     '</div>'+
@@ -486,7 +498,21 @@ tdviz.controller.mapController = function(options)
         .attr("class", "optionsBox");
 
         $('input[name="directionMode"]').change(function(){
+
             self.controlValues['direction'] = this.value;
+
+            if(this.value=="N")
+            {
+                // Reseteo de lo seleccionado
+
+                self.selectedOrigin="none";
+                self.selectedDestination="none";
+                d3.selectAll(".polygons").classed("destination",false);
+                d3.selectAll(".polygons").classed("origin",false);
+                d3.selectAll(".polygons").classed("between",false);
+
+            }
+
             console.log(self.controlValues);
         });
 

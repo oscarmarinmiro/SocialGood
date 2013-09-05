@@ -148,11 +148,6 @@ tdviz.controller.mapController = function(options)
         };
 
 
-    self.getRegionHTML = function(data)
-    {
-        return "None";
-    }
-
     self.buildInfoBox = function()
     {
        var html = "<div class='infoTitle'>"+"Information"+"</div>";
@@ -201,9 +196,9 @@ tdviz.controller.mapController = function(options)
 
        html += "<div class='boxTitle'>Trip Data</div><div class='boxContent'>"+self.infoTrip+"</div>";
 
-       html += "<hr><div class='boxTitle'>Hover Data</div><div class='boxContent'>"+self.infoHover+"</div>";
+       html += "<div class='boxTitle'>Hover Data</div><div class='boxContent'>"+self.infoHover+"</div>";
 
-       html += "</br></br>";
+//       html += "</br></br>";
 
 
        $('#infoBox').html(html);
@@ -219,8 +214,8 @@ tdviz.controller.mapController = function(options)
     {
         var myHtml = "";
 
-        myHtml += "<strong>LSOA Code</strong> " + d.properties['LSOA11CD'] ;
-        myHtml += "<strong>LSOA Name</strong> " + d.properties['LSOA11NM'] +"</br>";
+//        myHtml += "<strong>LSOA Code</strong> " + d.properties['LSOA11CD'] ;
+//        myHtml += "<strong>LSOA Name</strong> " + d.properties['LSOA11NM'] +"</br>";
 //        myHtml +="<strong>Centroid</strong> " + d3.geo.centroid(d)[0]+","+d3.geo.centroid(d)[1] + "</br>";
         myHtml += '<div style="display: inline-block;width: '+self.barScales['foots'](self.londonData['foots'][d.id][self.controlValues['day']][parseInt(self.controlValues['hour'],10)])*25+'px;height: 5px;background-color: '+self.footfallColor+';"></div>'+"  "+(self.barScales['foots'](self.londonData['foots'][d.id][self.controlValues['day']][parseInt(self.controlValues['hour'],10)])*10).toFixed(2)+"% <strong>Footfall index</strong></br>";
         myHtml += '<div style="display: inline-block;width: '+self.barScales['Crime'](self.londonData['Crime'][d.id])*25+'px;height: 5px;background-color: '+self.crimeColor+';"></div>'+"  "+(self.barScales['Crime'](self.londonData['Crime'][d.id])*10).toFixed(2)+"% <strong>Crime index</strong></br>";

@@ -55,6 +55,8 @@ tdviz.controller.mapController = function(options)
     self.ecoFactors = {'DRIVING':0.168, 'WALKING':0, 'BICYCLING':0, 'TRANSIT':0.0741};
     self.treeFactor = 22.0;
     self.moneyFactor = 80;
+    self.modesImgs = {'DRIVING':'imgs/car_t_16.png', 'WALKING':'imgs/walking_t_16.png', 'BICYCLING':'imgs/bike_t_16.png', 'TRANSIT':'imgs/bus_t_16.png'};
+    self.ecoHtml = '';
 
     self.drawPath = function(data){
       self.mapChart.emptyLayer('routes'+data.travelMode);
@@ -103,7 +105,7 @@ tdviz.controller.mapController = function(options)
       setTimeout(function(){
         $.each(routes, function(idx, route){
           self.drawPath(route);
-            self.calcFootPrint(route.travelMode,route.distance);
+            self.calcFootPrint(route.travelMode,route.distance,route.duration);
         });
       }, 1000);
     };
@@ -113,13 +115,15 @@ tdviz.controller.mapController = function(options)
       self.calcRoutes(o[1], o[0], d[1], d[0]);
     };
 
-    self.calcFootPrint = function(mode,distance){
+    self.calcFootPrint = function(mode,distance,duration){
         var temp = self.ecoFactors[mode] * distance;
         self.ecofootprints[mode] = temp/self.treeFactor;
         self.moneyfootprints[mode] = (temp/1000) * self.moneyFactor;
         console.log(self.ecofootprints);
         console.log(self.moneyfootprints);
-        self.infoTrip += '<div style="display: inline-block"></div>'+"  "+self.ecofootprints[mode].toFixed(2)+" "+self.moneyfootprints[mode].toFixed(2)+"</br>";
+        //self.infoTrip += '<div style="display: inline-block"></div>'+"  "+self.ecofootprints[mode].toFixed(2)+" "+self.moneyfootprints[mode].toFixed(2)+"</br>";
+        d3.select("#ecoresults").html(d3.select("#ecoresults").html()+'<tr><td><img src='+self.modesImgs[mode]+'></td><td>'+(distance/1000).toFixed(2)+'km</td><td>'+duration+'</td><td>'+self.ecofootprints[mode].toFixed(2)+"</td><td>"+self.moneyfootprints[mode].toFixed(2)+'</td></tr>')
+        self.ecoHtml = d3.select("#ecoresults").html();
     }
     /* END Trip planner */
 
@@ -275,11 +279,14 @@ tdviz.controller.mapController = function(options)
 
        html += "<div class='boxTitle'>Trip Data</div><div class='boxContent'>"+self.infoTrip+"</div>";
 
+       if (self.ecoHtml != ''){
+         html += '<table id="ecoresults"><tr><td></td><td><img src="imgs/distance_t_16.png"></td><td><img src="imgs/duration_t_16.png"></td><td><img src="imgs/tree_t_16.png"></td><td><img src="imgs/money_t_16.png"></td></tr>'+self.ecoHtml+'</table>';
+       }else{
+         html += '<table id="ecoresults"></table>';
+       }
        html += "<div class='boxTitle'>Hover Data</div><div class='boxContent'>"+self.infoHover+"</div>";
 
 //       html += "</br></br>";
-
-
        $('#infoBox').html(html);
     };
 
@@ -435,6 +442,8 @@ tdviz.controller.mapController = function(options)
         self.infoTrip += '<div style="display: inline-block;width: '+footIndex*2.5+'px;height: 5px;background-color: '+self.footfallColor+';"></div>'+"  "+footIndex.toFixed(2)+"% <strong>Avg Footfall index</strong></br>";
         self.infoTrip += '<div style="display: inline-block;width: '+crimeIndex*2.5+'px;height: 5px;background-color: '+self.crimeColor+';"></div>'+"  "+crimeIndex.toFixed(2)+"% <strong>Crime index</strong></br>";
         self.infoTrip += '<div style="display: inline-block;width: '+polIndex*2.5+'px;height: 5px;background-color: '+self.pollutionColor+';"></div>'+"  "+polIndex.toFixed(2)+"% <strong>Pollution index</strong></br>";
+
+        self.infoTrip += '<table id="ecoresults"></table>'
         //$.each(self.travelModes,function(method){console.log("AAAAAAA");console.log(self.ecofootprints);self.infoTrip += '<div style="display: inline-block;width: '+polIndex*2.5+'px;height: 5px;background-color: '+self.pollutionColor+';"></div>'+"  "+self.ecofootprints[method].toFixed(2)+"% </br>";});
 
     }

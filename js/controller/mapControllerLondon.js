@@ -28,6 +28,8 @@ tdviz.controller.mapController = function(options)
     self.pollutionColor = "#007";
     self.footfallColor = "#700";
 
+    self.polDict = {};
+
 
     self.comboDict = {'Footfall':'foots','Crime':'Crime','Pollution':'Pollution'};
     self.comboColors = {'foots': ["#FFF","#F00"],'Crime':["#FFF","#0F0"],'Pollution':["#FFF","#00F"]};
@@ -308,7 +310,9 @@ tdviz.controller.mapController = function(options)
 
             // Aqui hay que dibujar las barras
 
-            self.getTripData(polDict);
+            self.polDict = polDict;
+
+            self.getTripData(self.polDict);
 
             // Aqui hay que llamar al trip planner
 
@@ -556,6 +560,8 @@ tdviz.controller.mapController = function(options)
 
                 self.infoTrip = "";
 
+                self.polDict = {};
+
                 self.buildInfoBox();
 
             }
@@ -572,6 +578,17 @@ tdviz.controller.mapController = function(options)
 
         $('#hourCombo').change(function(){
             self.controlValues['hour'] = this.value;
+
+            if(self.selectedOrigin!="none" && self.selectedDestination!="none")
+            {
+                self.getTripData(self.polDict);
+
+                self.buildInfoBox();
+
+                // re-call trip planner;
+
+            }
+
             console.log(self.controlValues);
             self.mapChart.updateValues(["lsoas"]);
 
@@ -579,6 +596,16 @@ tdviz.controller.mapController = function(options)
 
         $('#dayCombo').change(function(){
             self.controlValues['day'] = this.value;
+
+            if(self.selectedOrigin!="none" && self.selectedDestination!="none")
+            {
+                self.getTripData(self.polDict);
+
+                self.buildInfoBox();
+
+                // re-call trip planner;
+            }
+
             console.log(self.controlValues);
             self.mapChart.updateValues(["lsoas"]);
 

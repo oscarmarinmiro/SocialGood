@@ -93,7 +93,7 @@ tdviz.controller.mapController = function(options)
         {
             var interPoint = rayInterpol(i);
 
-            console.log(interPoint);
+//            console.log(interPoint);
 
             for(var index in mapData.features)
             {
@@ -246,7 +246,7 @@ tdviz.controller.mapController = function(options)
     {
         if(self.controlValues['direction']=="S")
         {
-            console.log("En el source");
+//            console.log("En el source");
 
             self.selectedOrigin = d.id;
 
@@ -270,6 +270,8 @@ tdviz.controller.mapController = function(options)
 
             self.destinationFeature = d;
 
+
+
         }
         if(self.controlValues['direction']=="N")
         {
@@ -282,13 +284,12 @@ tdviz.controller.mapController = function(options)
         }
 
 
-        self.buildInfoBox();
 
         if(self.selectedOrigin!="none" && self.selectedDestination!="none")
         {
             var polDict = self.getLSOAIntersect(self.originFeature,self.destinationFeature,self.fileData);
 
-            console.log(polDict);
+//            console.log(polDict);
 
             var tripSDistance = d3.geo.greatArc().distance({source: d3.geo.centroid(self.originFeature), target: d3.geo.centroid(self.destinationFeature)}) * 6371;
 
@@ -304,10 +305,57 @@ tdviz.controller.mapController = function(options)
                     return false;
                 }
             });
+
+            // Aqui hay que dibujar las barras
+
+            self.getTripData(polDict);
+
+            // Aqui hay que llamar al trip planner
+
 //            self.mapChart.updateValues(["lsoas"]);
         }
 
+        self.buildInfoBox();
+
+
     };
+
+    self.getTripData = function(polyDict)
+    {
+        var numPolys = 0;
+        var polIndex = 0.0;
+        var footIndex = 0.0;
+        var crimeIndex = 0.0;
+
+        for(var polyId in polyDict)
+        {
+            numPolys+=1;
+
+            polIndex+= self.barScales['Pollution'](self.londonData['Pollution'][polyId])*10;
+            crimeIndex+= self.barScales['Crime'](self.londonData['Crime'][polyId])*10;
+
+            if((polyId in self.londonData['foots']) && (self.controlValues['day'] in self.londonData['foots'][polyId]))
+            {
+                footIndex+= self.barScales['foots'](self.londonData['foots'][polyId][self.controlValues['day']][parseInt(self.controlValues['hour'],10)])*10;
+            }
+        }
+
+        polIndex = polIndex / numPolys;
+        crimeIndex = crimeIndex / numPolys;
+        footIndex = footIndex / numPolys;
+
+        console.log("Trip Data");
+        console.log(polIndex);
+        console.log(crimeIndex);
+        console.log(footIndex);
+
+        self.infoTrip = "";
+
+        self.infoTrip += '<div style="display: inline-block;width: '+footIndex*0.25+'px;height: 5px;background-color: '+self.footfallColor+';"></div>'+"  "+footIndex.toFixed(2)+"% <strong>Avg Footfall index</strong></br>";
+        self.infoTrip += '<div style="display: inline-block;width: '+crimeIndex*0.25+'px;height: 5px;background-color: '+self.crimeColor+';"></div>'+"  "+crimeIndex.toFixed(2)+"% <strong>Crime index</strong></br>";
+        self.infoTrip += '<div style="display: inline-block;width: '+polIndex*0.25+'px;height: 5px;background-color: '+self.pollutionColor+';"></div>'+"  "+polIndex.toFixed(2)+"% <strong>Pollution index</strong></br>";
+
+    }
 
     self.polygonMapMove = function(selection)
     {
@@ -326,7 +374,7 @@ tdviz.controller.mapController = function(options)
             {
                 if((d.id in self.londonData[dim]) && (self.controlValues['day'] in self.londonData[dim][d.id]))
                 {
-                    console.log(self.londonData[dim][d.id]);
+//                    console.log(self.londonData[dim][d.id]);
                     return colorScale(self.londonData[dim][d.id][self.controlValues['day']][parseInt(self.controlValues['hour'],10)]);
                 }
                 else
@@ -506,9 +554,13 @@ tdviz.controller.mapController = function(options)
                 d3.selectAll(".polygons").classed("origin",false);
                 d3.selectAll(".polygons").classed("between",false);
 
+                self.infoTrip = "";
+
+                self.buildInfoBox();
+
             }
 
-            console.log(self.controlValues);
+//            console.log(self.controlValues);
         });
 
 

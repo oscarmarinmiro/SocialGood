@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map lib example</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <link rel="stylesheet" href="css/mapLondon.css" />
+    <link rel="stylesheet" href="css/jquery.slider.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700,900' rel='stylesheet' type='text/css'>
+     <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js" charset="utf-8"></script>
+     <script src="js/3rdparty/jquery.js" charset="utf-8"></script>
+     <script src="http://maps.stamen.com/js/tile.stamen.js?v1.2.2" charset="utf-8"></script>
+     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+     <script src="js/controller/mapControllerLondon.js" charset="utf-8"></script>
+     <script src="js/viz/mapVizLondon.js" charset="utf-8"></script>
+
+
+</head>
+
+<body>
+
+<div id="header" class="vizHeader"><div style="padding:5px 0px 0px 15px;">London Transport: Good for you, good for the planet</div></div>
+<!--<div id="logo" class="logo"><img src="img/logo.png" width="150"></div>-->
+<div id="map" class="map"></div>
+
+<script type="text/javascript">
+
+
+    // Controller object
+
+    self.mapObj = tdviz.controller.mapController(
+        {
+            'idName':"map",
+            'className':"map",
+            'baseJUrl':"data/",
+            'imgPath':"img/",
+            'lsoasFile': 'LSOASDef.json',
+            'londonFile': 'finalLondonData.json',
+            'apiKey': '4a708528dd0e441da7e211270da4dd33',
+//            'mapStyle': '22677',
+            'mapStyle': '998',
+            'initLatLng': [51.5072,0.1275],
+            'initZoom': 10,
+            'transTime': 1000,
+            'timerInterval':2000,
+            'hideOnZoom': false,
+            'maxZoom': 18,
+            'attributionText':'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+            'debugLevel':4
+        });
+
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        height: 100%;
+    }
+
+    .map .points
+    {
+        fill: #C00;
+        /*stroke: black;*/
+        /*stroke-width: 2px;*/
+        cursor: pointer;
+    }
+
+    .map .paths
+    {
+       stroke:purple;
+       stroke-width: 2px;
+       /*fill: transparent;*/
+       cursor:pointer;
+    }
+
+    .map .localPaths
+    {
+        stroke:magenta
+    }
+
+    .map .polygons {
+      fill: brown;
+      fill-opacity: .5;
+      stroke: #000;
+      stroke-width: 0.5px;
+      stroke-opacity: 0.3;
+      cursor: pointer;
+    }
+
+    .map .polygons:hover {
+      /*fill-opacity: 0.9;*/
+      stroke: #000;
+      stroke-opacity: 0.9;
+      stroke-width: 1.5px;
+      fill-opacity: .9;
+    }
+
+    .map .polygons.clicked
+    {
+        stroke-opacity:0.9;
+        stroke-width: 3px;
+    }
+
+
+    .map .polygons.origin
+    {
+        fill: purple!important;
+        /*stroke-width: 1.5px;*/
+        fill-opacity: .9;
+        stroke-opacity: 1.0;
+    }
+
+    .map .polygons.destination
+    {
+        fill: orange!important;
+        /*stroke-width: 1.5px;*/
+        fill-opacity: .9;
+        stroke-opacity: 1.0;
+    }
+
+    .map .polygons.between
+    {
+        fill-opacity: .9;
+        fill: grey!important;
+
+    }
+
+    .tooltip
+    {
+        position: absolute;
+        padding: 8px;
+        font: 10px Helvetica Neue;
+        background: #FFF;
+        border: solid 1px #aaa;
+        border-radius: 8px;
+        pointer-events: none;
+        z-order:1000;
+    }
+
+/* leaflet controls */
+
+    .infoBox
+    {
+        z-index: 9999;
+        position: absolute;
+        right: 10px;
+        top: 60px;
+        background: white;
+        background: rgba(255,255,255,1.0);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        width:400px;
+        font: 10px Titillium Web;
+        padding-bottom: 5px;
+        /*font: 10px Helvetica Neue;*/
+    }
+
+    .infoBox h3
+    {
+        margin: 0 0 5px;
+        font-size: 20px;
+        color: #000;
+
+    }
+
+    .infoBox h4
+    {
+        margin: 0 0 5px;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .optionsBox
+    {
+        z-index: 9999;
+        position: absolute;
+        right: 10px;
+        bottom: 30px;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        width:400px;
+        font: 10px Titillium Web;
+        /**/
+        /*font: 10px Helvetica Neue;*/
+    }
+
+    .optionsBox h4
+    {
+        margin: 0 0 5px;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .controlBox
+    {
+        padding-right:25px;
+        padding-bottom:15px;
+        float:left;
+    }
+    .timeSeriesContainer
+    {
+        /*padding: 10px 10px 10px 10px;*/
+        z-index: 9999;
+        position: absolute;
+        right: 10px;
+        top: 120px;
+        background: white;
+        background: rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        border-radius: 5px;
+        width:400px;
+        height:270px;
+        font: 10px Titillium Web;
+        pointer-events: none;
+    }
+
+    .timeSeriesContainer .title
+    {
+        font-size: 14px;
+        color: #777;
+        text-align:center;
+        font-weight: bold;
+    }
+
+    .timeSeriesFooter
+    {
+        font-size: 12px;
+        color: #000;
+        padding-top:0px;
+        text-align:center;
+    }
+
+    .timeSeriesBox .title
+    {
+        font-size: 12px;
+        fill: #777;
+        font-weight: bold;
+    }
+
+    /*Slider*/
+
+    .layout-slider
+    {
+        margin-top:20px;
+        margin-bottom:30px;
+    }
+
+    .play
+    {
+        cursor: pointer;
+    }
+
+    .optionsLegend
+    {
+        font-size:14px;
+        color: #000;
+        font-weight:600;
+    }
+
+    /* Axis */
+
+    path.domain
+    {
+        fill: none;
+        stroke: #CCC;
+    }
+
+    .xaxis line.tick.minor
+    {
+      stroke: #CCC;
+      stroke-width: 1;
+      shape-rendering: crispedges;
+      stroke-opacity:0.3;
+    }
+
+    .xaxis .tick.major line
+    {
+      stroke: #777;
+      stroke-width: 1;
+      shape-rendering: crispedges;
+      opacity:0.7;
+    }
+
+    .xaxis .tick.major text
+    {
+        font-size: 9px;
+    }
+
+    .yaxis line.tick.minor
+    {
+      stroke: #CCC;
+      stroke-width: 1;
+      shape-rendering: crispedges;
+      stroke-opacity:0.3;
+    }
+
+    .yaxis .tick.major line
+    {
+      stroke: #777;
+      stroke-width: 1;
+      shape-rendering: crispedges;
+      opacity:0.7;
+    }
+
+
+    .yaxis .tick.major text
+    {
+        font-size: 8px;
+    }
+
+
+      path.dataPath
+      {
+          stroke-width: 1;
+          stroke: #000;
+          stroke-opacity:1.0;
+          fill-opacity:0.5;
+      }
+
+      path.dataPathIn
+      {
+          stroke-width: 3;
+          stroke-opacity:1.0;
+      }
+
+      path.dataPathOut
+      {
+          stroke-width: 3;
+          stroke-opacity:1.0;
+      }
+
+      path.dataPathDiff
+      {
+          stroke-width: 3;
+          stroke-opacity:1.0;
+      }
+    /* Box headers */
+
+    .infoTitle
+    {
+        background-color: #000;
+        color: #FFF;
+        font-size: 18px;
+        font-family: Titillium Web;
+        text-align: center;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+
+    .boxTitle
+    {
+        font-size: 14px;
+        color: #000;
+        font-weight: 600;
+        text-align:left;
+        padding-left:20px;
+    }
+    .boxContent
+    {
+        text-align:left;
+        padding-left:20px;
+    }
+    .infoContent
+    {
+        padding: 5px 20px 20px 20px;
+    }
+
+/* Viz header */
+
+    .vizHeader
+    {
+        z-index: 9999;
+        position: absolute;
+        top:0px;
+        height:45px;
+        width:100%;
+        background-color: #000;
+        color: #FFF;
+        font-size: 25px;
+        font-family: Titillium Web;
+        /*padding: 5px 0px 0px 15px;*/
+    }
+
+/* Leaflet zoom control hack */
+
+    .leaflet-top {
+        top: 50px;
+    }
+
+
+/* Logo */
+
+    .logo
+    {
+        z-index: 9999;
+        position: absolute;
+        bottom: 15px;
+        left: 10px;
+    }

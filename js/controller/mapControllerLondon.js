@@ -293,9 +293,9 @@ tdviz.controller.mapController = function(options)
 
 //            console.log(polDict);
 
-            var tripSDistance = d3.geo.greatArc().distance({source: d3.geo.centroid(self.originFeature), target: d3.geo.centroid(self.destinationFeature)}) * 6371;
+            self.tripSDistance = d3.geo.greatArc().distance({source: d3.geo.centroid(self.originFeature), target: d3.geo.centroid(self.destinationFeature)}) * 6371;
 
-            console.log(tripSDistance);
+            console.log(self.tripSDistance);
 
             d3.selectAll(".polygons").classed("between",function(d,i){
                 if(d.id in polDict && d.id !=self.selectedDestination && d.id != self.selectedOrigin)
@@ -353,7 +353,7 @@ tdviz.controller.mapController = function(options)
         console.log(crimeIndex);
         console.log(footIndex);
 
-        self.infoTrip = "";
+        self.infoTrip = "<strong>Straight distance: "+self.tripSDistance.toFixed(2)+" km</strong></br>";
 
         self.infoTrip += '<div style="display: inline-block;width: '+footIndex*2.5+'px;height: 5px;background-color: '+self.footfallColor+';"></div>'+"  "+footIndex.toFixed(2)+"% <strong>Avg Footfall index</strong></br>";
         self.infoTrip += '<div style="display: inline-block;width: '+crimeIndex*2.5+'px;height: 5px;background-color: '+self.crimeColor+';"></div>'+"  "+crimeIndex.toFixed(2)+"% <strong>Crime index</strong></br>";

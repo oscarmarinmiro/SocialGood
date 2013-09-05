@@ -16,7 +16,7 @@ tdviz.viz.mapViz = function(options)
 
     self.init = function(){
 
-        console.log("Viz init V3...");
+        //console.log("Viz init V3...");
 
         // LEAFLET
         //var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/'+self.apiKey+'/'+self.mapStyle+'/256/{z}/{x}/{y}.png';
@@ -43,7 +43,7 @@ tdviz.viz.mapViz = function(options)
 
         self.map._initPathRoot();
 
-        console.log("Mapa inicializado...");
+        //console.log("Mapa inicializado...");
 
         // Resolution var init
 
@@ -113,9 +113,9 @@ tdviz.viz.mapViz = function(options)
         self.geoData[layerName].geoPolygons = [];
         self.geoData[layerName].geoPaths = [];
 
-        console.log("LAYERS");
+        //console.log("LAYERS");
 
-        console.log(self.layers);
+        //console.log(self.layers);
     }
 
     self.layerAttr = function(layerName, attrName, attrValue)
@@ -137,7 +137,7 @@ tdviz.viz.mapViz = function(options)
 
     self.render = function(mapData,layerName)
     {
-        console.log("Viz render with data...");
+        //console.log("Viz render with data...");
 //        console.log(mapData);
 
         self.geoData[layerName].geoPoints.length = 0;
@@ -301,7 +301,7 @@ tdviz.viz.mapViz = function(options)
                     n0 = path0.getTotalLength(),
                     n1 = (path1.setAttribute("d", d1), path1).getTotalLength();
 
-                    console.log(this.cloneNode().getAttribute("dfinal"));
+                    //console.log(this.cloneNode().getAttribute("dfinal"));
 
 
                 // Uniform sampling of distance based on specified precision.

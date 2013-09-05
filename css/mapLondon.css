@@ -6,6 +6,10 @@
         height: 100%;
     }
 
+    tr {
+      line-height: 8px;
+    }
+
     .map .points
     {
         fill: #C00;
@@ -19,6 +23,7 @@
        stroke:purple;
        stroke-width: 2px;
        /*fill: transparent;*/
+       pointer-events: none;
        cursor:pointer;
     }
 
@@ -53,7 +58,8 @@
 
     .map .polygons.origin
     {
-        fill: purple!important;
+        /*fill: purple!important;*/
+        fill: #1473CC !important;
         /*stroke-width: 1.5px;*/
         fill-opacity: .9;
         stroke-opacity: 1.0;
@@ -61,7 +67,8 @@
 
     .map .polygons.destination
     {
-        fill: orange!important;
+        /*fill: orange!important;*/
+        fill: #96000A !important;
         /*stroke-width: 1.5px;*/
         fill-opacity: .9;
         stroke-opacity: 1.0;

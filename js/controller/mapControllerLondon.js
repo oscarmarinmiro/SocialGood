@@ -46,6 +46,85 @@ tdviz.controller.mapController = function(options)
 
     self.controlValues = {'dimension':"foots", 'direction':"N",'day':'09/12/2012','hour':'0'};
 
+    /* BEGIN Trip planner */
+    self.travelModes = ['DRIVING', 'WALKING', 'BICYCLING', 'TRANSIT'];
+    self.routeColors = {'routesDRIVING': '#DF7529', 'routesWALKING': '#FAD232', 'routesBICYCLING': '#1CB88B', 'routesTRANSIT': '#42B8DD'};
+    self.directionsService = new google.maps.DirectionsService();
+    
+    self.calcRoute = function(originLatLng, destinationLatLng, selectedMode) {
+      var request = {
+        origin: originLatLng,
+        destination: destinationLatLng,
+        travelMode: google.maps.TravelMode[selectedMode]
+      };
+      self.directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          var result = new Object();
+          result.travelMode = response.Xb.travelMode;
+          result.distance = response.routes[0].legs[0].distance.value; //in meters
+          result.duration = response.routes[0].legs[0].duration.value; //in seconds
+          result.path = new Array();
+          $.each(response.routes[0].overview_path, function(index, item){
+            result.path.push([item.pb, item.ob]);
+          });
+          result.steps = new Array();
+          $.each(response.routes[0].legs[0].steps, function(index, item){
+            var temp = new Object();
+            temp.distance = item.distance.value; //in meters
+            temp.duration = item.duration.value; //in seconds
+            temp.travelMode = item.travel_mode;
+            temp.path = new Array();
+            $.each(item.path, function(idx, itm){
+              temp.path.push([itm.pb, itm.ob]);
+            });
+            if (item.travel_mode == "TRANSIT") {
+              temp.departureStop = new Object();
+              temp.departureStop.name = item.transit.departure_stop.name;
+              temp.departureStop.location = [item.transit.departure_stop.location.pb,item.transit.departure_stop.location.ob];
+              temp.arrivalStop = new Object();
+              temp.arrivalStop.name = item.transit.arrival_stop.name;
+              temp.arrivalStop.location = [item.transit.arrival_stop.location.pb,item.transit.arrival_stop.location.ob];
+            }
+            result.steps.push(temp);
+          });
+          // Do something!!!
+          //console.log(result);
+          self.drawPath(result)
+        }
+     });
+    };
+    self.drawPath = function(data){
+      self.mapChart.emptyLayer('routes'+data.travelMode);
+      var featurePath = new Object();
+      featurePath.type = 'FeatureCollection';
+      featurePath.features = new Array();
+      var currentFeature = new Object();
+      currentFeature.type = 'Feature';
+      currentFeature.geometry = new Object();
+      currentFeature.geometry.type = 'LineString';
+      currentFeature.geometry.coordinates = data.path;
+      currentFeature.properties = new Object();
+      currentFeature.properties.distance = data.distance;
+      currentFeature.properties.duration = data.duration;
+      currentFeature.properties.travelMode = data.travelMode;
+      featurePath.features.push(currentFeature);
+      //console.log(featurePath);
+      self.mapChart.render(featurePath, 'routes'+data.travelMode);
+    };
+    self.calcRoutes = function(originLat, originLng, destinationLat, destinationLng) {
+      var originLatLng = new google.maps.LatLng(originLat, originLng);
+      var destinationLatLng = new google.maps.LatLng(destinationLat, destinationLng);
+      $.each(self.travelModes, function(index, mode){
+        self.calcRoute(originLatLng, destinationLatLng, mode);
+      });
+    };
+    self.calcPolygonRoute = function() {
+      var o = d3.geo.centroid(self.originFeature);
+      var d = d3.geo.centroid(self.destinationFeature);
+      self.calcRoutes(o[1], o[0], d[1], d[0]);
+    };
+    /* END Trip planner */
+
 
     // Funciones auxiliares
 
@@ -297,7 +376,7 @@ tdviz.controller.mapController = function(options)
 
             console.log(self.tripSDistance);
 
-            d3.selectAll(".polygons").classed("between",function(d,i){
+            /*d3.selectAll(".polygons").classed("between",function(d,i){
                 if(d.id in polDict && d.id !=self.selectedDestination && d.id != self.selectedOrigin)
                 {
                     return true;
@@ -306,7 +385,7 @@ tdviz.controller.mapController = function(options)
                 {
                     return false;
                 }
-            });
+            });*/
 
             // Aqui hay que dibujar las barras
 
@@ -315,6 +394,7 @@ tdviz.controller.mapController = function(options)
             self.getTripData(self.polDict);
 
             // Aqui hay que llamar al trip planner
+            self.calcPolygonRoute();
 
 //            self.mapChart.updateValues(["lsoas"]);
         }
@@ -425,7 +505,16 @@ tdviz.controller.mapController = function(options)
 
     }
 
-    self.pathMapMove = function(selection){};self.pathUpdate = function(selection){};self.pathEnter = function(selection,layerName){};self.pathExit = function(selection){};
+    self.pathMapMove = function(selection){
+      selection.attr("d",self.mapChart.path).style('fill', 'transparent');
+    };
+    self.pathUpdate = function(selection){};
+    self.pathEnter = function(selection,layerName){
+      selection.attr("d",self.mapChart.path).style('fill', 'transparent').style('stroke', self.routeColors[layerName]);
+    };
+    self.pathExit = function(selection){
+      selection.remove();
+    };
 
     // El document ready
 
@@ -613,6 +702,11 @@ tdviz.controller.mapController = function(options)
 
 
         self.mapChart.addLayer("lsoas");
+        /* BEGIN Trip planner */
+        $.each(self.travelModes, function(index, item){
+          self.mapChart.addLayer('routes'+item);
+        });
+        /* END Trip planner */
 
 
         $('#infoBox').html("<div class='infoTitle'>Loading Data...</div>");

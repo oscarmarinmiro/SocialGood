@@ -351,9 +351,9 @@ tdviz.controller.mapController = function(options)
 
         self.infoTrip = "";
 
-        self.infoTrip += '<div style="display: inline-block;width: '+footIndex*0.25+'px;height: 5px;background-color: '+self.footfallColor+';"></div>'+"  "+footIndex.toFixed(2)+"% <strong>Avg Footfall index</strong></br>";
-        self.infoTrip += '<div style="display: inline-block;width: '+crimeIndex*0.25+'px;height: 5px;background-color: '+self.crimeColor+';"></div>'+"  "+crimeIndex.toFixed(2)+"% <strong>Crime index</strong></br>";
-        self.infoTrip += '<div style="display: inline-block;width: '+polIndex*0.25+'px;height: 5px;background-color: '+self.pollutionColor+';"></div>'+"  "+polIndex.toFixed(2)+"% <strong>Pollution index</strong></br>";
+        self.infoTrip += '<div style="display: inline-block;width: '+footIndex*2.5+'px;height: 5px;background-color: '+self.footfallColor+';"></div>'+"  "+footIndex.toFixed(2)+"% <strong>Avg Footfall index</strong></br>";
+        self.infoTrip += '<div style="display: inline-block;width: '+crimeIndex*2.5+'px;height: 5px;background-color: '+self.crimeColor+';"></div>'+"  "+crimeIndex.toFixed(2)+"% <strong>Crime index</strong></br>";
+        self.infoTrip += '<div style="display: inline-block;width: '+polIndex*2.5+'px;height: 5px;background-color: '+self.pollutionColor+';"></div>'+"  "+polIndex.toFixed(2)+"% <strong>Pollution index</strong></br>";
 
     }
 

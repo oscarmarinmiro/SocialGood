@@ -49,6 +49,7 @@ tdviz.controller.mapController = function(options)
     /* BEGIN Trip planner */
     self.travelModes = ['DRIVING', 'WALKING', 'BICYCLING', 'TRANSIT'];
     self.routeColors = {'routesDRIVING': '#021E73', 'routesWALKING': '#FFBE00', 'routesBICYCLING': '#149689', 'routesTRANSIT': '#BF0A13'};
+    //self.routeColors = {'routesDRIVING': '#021E73', 'routesWALKING': '#FFBE00', 'routesBICYCLING': '#149689', 'routesTRANSIT': '#BF0A13'};
     self.directionsService = new google.maps.DirectionsService();
     self.ecofootprints = new Object();
     self.moneyfootprints = new Object();
@@ -132,7 +133,7 @@ tdviz.controller.mapController = function(options)
           d3.select('#ecoresults').html('<tr><td></td><td style="text-align:center"><img src="imgs/distance_t_16.png" alt="Distance"></td>'+
                                         '<td style="text-align:center"><img src="imgs/duration_t_16.png" alt="Duration"></td>'+
                                         '<td style="text-align:center"><img src="imgs/tree_t_16.png" alt="Trees per year"></td>'+
-                                        '<td style="text-algin:center"><img src="imgs/money_t_16.png" alt="Money per year"></td></tr>');
+                                        '<td style="text-align:center"><img src="imgs/money_t_16.png" alt="Money per year"></td></tr>');
         }
         d3.select("#ecoresults").html(d3.select("#ecoresults").html()+
                                       '<tr><td>'+

@@ -3,6 +3,7 @@
 <head>
     <title>About 'London transport: Good for you, good for the planet'</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8">
     <link rel="stylesheet" href="css/mapLondon.css" />
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700,900' rel='stylesheet' type='text/css'>
 
@@ -13,5 +14,84 @@
         About 'London Transport: Good for you, good for the planet'
       </div>
   </div>
+  <div class="aboutContent">
+      <h1>About</h1>
+            <p>"London Transport: Good for you, good for the planet" aims to change to way traditional intra-city trip planning applications work, by taking into account the trip average pollution, estimated crowd factor and crime data. This way, the planning is not solely focused on "travel distance" (efficiency), but also on travel sustainability and security.</p>
+            <p> Also, we calculate CO2 footprint for every modality and the economic "footprint" it will also generate. The first metric is translated into annual trees needed to absorb the CO2 footprint if this trip. The second one (economic) is translated into annual British Pounds that must be spended (on behalf of the user and also the city) to support a whole year of daily trips like the one the user created</p>
+            <p>As a side functionality, you can also watch London map under three perspective (heatmaps):</p>
+            <ul>
+            <li>London crowding view (at the typical hour / day selected)</li>
+            <li>London crime rate</li>
+            <li>London pollution rate</li>
+            </ul>
+            <p>This project has been implemented at the "Datathon for Social Good" http://dynamicinsights.telefonica.com/962/using-big-data-for-social-good, held between 2-6th September 2013</p>
+      <h1>Who made this?</h1>
+        <ul>
+            <li>Susana Ferreras, Data Scientist at Telefónica Digital</li>
+            <li>Alberto Martín Dominguez, Data Scientist at Telefónica Digital</li>
+            <li>Alberto González Paje, Data Analyst at Bestiario</li>
+            <li>Alejandro González Díez, Data Engineer at Outliers Collective</li>
+            <li>Rubén Abad Agulló, Data Engineer at Outliers Collective</li>
+            <li>Óscar Marín Miró, Data Engineer at Outliers Collective</li>
+         </ul>
+      <h1>Where's the data?</h1>
+
+        <p>
+        <strong>GeoData</strong><br>
+        <a href="http://data.london.gov.uk/datastore/package/lsoa-atlas" target="blank_">http://data.london.gov.uk/datastore/package/lsoa-atlas</a>
+        </p>
+
+        <p>
+        <strong>Pollution and Crime Data</strong><br>
+        <a href="http://data.london.gov.uk/datastore/package/lsoa-atlas" target="blank_">http://data.london.gov.uk/datastore/package/lsoa-atlas</a>
+        </p>
+
+        <p><strong>Ecological footprint-trees conversion</strong><br>
+        <a href="http://www.arborenvironmentalalliance.com" target="blank_">http://www.arborenvironmentalalliance.com</a></p>
+
+        <p><strong>Fuel average consumption</strong><br>
+        <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/89643/env0103.xls" target="blank_">https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/89643/env0103.xls</a></p>
+
+        <p><strong>Carbon footprint
+        sources</strong><br>
+        <a href="http://www.transportdirect.info" target="blank_">http://www.transportdirect.info</a>
+        <a href="http://www.cefic.org" target="blank_">http://www.cefic.org</a></p>
+
+        <p><strong>Social cost of Carbon footprint
+        source</strong><br>
+        <a href="http://www.oecd.org/env/cc/37321411.pdf" target="blank_">http://www.oecd.org/env/cc/37321411.pdf</a></p>
+
+        <p><strong>Tree Carbon absorption
+        source</strong><br>
+        <a href="http://www.arborenvironmentalalliance.com/carbon-tree-facts.asp" target="blank_">http://www.arborenvironmentalalliance.com/carbon-tree-facts.asp</a></p>
+
+        <p>
+            <strong>Crowding index for London</strong><br>
+            Internal data from the datathon, hosted by <a href="http://www.junar.com/" target="blank_">Junar:The Open Data Platform</a>
+        </p>
+
+<h1>How do you estimate emissions and costs for different transit modalities?</h1>
+
+<p>To estimate the CO2 produced by a car journey we first calculate the distance travelled along the planned road route. We then estimate the fuel your car will use travelling along that route. Once we have calculated the fuel used we convert this to the CO2 produced using a conversion factor.</p>
+    <p>To estimate the CO2 produced by a bus/underground journey we first calculate the distance travelled along the planned route and we multiply this by a specific factor for the particular modes you will use. This gives the CO2 emissions for your journey. We then multiply your journey CO2 emissions by 365 to estimate your annual CO2 emissions. </p>
+    <p>The Social Cost of Carbon is estimated as the net present value of climate change impacts over the next 100 years (or longer) of one additional tonne of carbon emitted to the atmosphere today. It is the marginal global damage costs of carbon emissions. We assume a cost of 80 GBP per tonne of CO2 and use it to project the annual cost of the CO2 emissions for your journey. Trees absorb carbon dioxide mitigating greenhouse. We assume that a single tree can absorb CO2 at a rate of 48 lb. per year and use it to calculate how many trees are needed to absorb your annual estimated CO2 emissions.</p>
+<h1>Which technologies did we used?</h1>
+    <ul>
+        <li><strong>R</strong> for initial analysis,data quality assessment and carbon footprint calculations</li>
+        <li><strong>Quadrigram</strong> for map agile prototyping and first data assesments</li>
+        <li><strong>D3.js</strong>: Polygon heatmap and SVG overlays and interactivity</li>
+        <li><strong>Leaflet.js</strong>:Tiling and mapping library</li>
+        <li>Tiles from <strong>Stamen Design</strong></li>
+        <li><strong>Python</strong> for Data ‘plumbing’ and JSON generation</li>
+        <li><strong>Google maps API</strong> for trip planning</li>
+    </ul>
+<h1>Contact</h1>
+      <p>If you have any comments, please do not hesitate to contact us at outliers [at..] outliers.es</p>
+
+  </div>
+
+<div id="footer" style="padding-bottom:50px;">
+
+</div>
 </body>
 </html>

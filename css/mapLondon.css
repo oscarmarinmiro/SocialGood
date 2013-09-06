@@ -355,3 +355,30 @@
         bottom: 15px;
         left: 10px;
     }
+/* ABOUT STYLES */
+
+    .aboutContent
+    {
+        font-family: Titillium Web;
+        padding: 40px 0 0 15px;
+    }
+
+    .aboutContent h1
+    {
+        font-size: 22px;
+    }
+
+    .aboutContent p
+    {
+        font-size: 12px;
+    }
+
+    .aboutContent li
+    {
+        font-size: 12px;
+    }
+
+    .aboutContent a
+    {
+        color: #777777;
+    }

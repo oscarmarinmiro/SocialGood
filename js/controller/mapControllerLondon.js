@@ -90,12 +90,13 @@ tdviz.controller.mapController = function(options)
         self.directionsService.route(request, function(response, status) {
           if (status == google.maps.DirectionsStatus.OK) {
             var result = new Object();
-            result.travelMode = response.Xb.travelMode;
+            result.travelMode = mode;
             result.distance = response.routes[0].legs[0].distance.value; //in meters
             result.duration = response.routes[0].legs[0].duration.value; //in seconds
             result.path = new Array();
+            //var overview_map = google.maps.geometry.encoding.decodePath(response.routes[0].overview_polyline.points);
             $.each(response.routes[0].overview_path, function(index, item){
-              result.path.push([item.pb, item.ob]);
+              result.path.push([item.qb, item.pb]);
             });
             // Do something!!!
             routes.push(result);

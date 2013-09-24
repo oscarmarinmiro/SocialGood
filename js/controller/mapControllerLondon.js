@@ -94,9 +94,14 @@ tdviz.controller.mapController = function(options)
             result.distance = response.routes[0].legs[0].distance.value; //in meters
             result.duration = response.routes[0].legs[0].duration.value; //in seconds
             result.path = new Array();
-            //var overview_map = google.maps.geometry.encoding.decodePath(response.routes[0].overview_polyline.points);
+            //var overview_path = google.maps.geometry.encoding.decodePath(response.routes[0].overview_polyline.points);
             $.each(response.routes[0].overview_path, function(index, item){
-              result.path.push([item.qb, item.pb]);
+              //console.log(item);
+              if('qb' in item){
+                result.path.push([item.qb, item.pb]);
+              }else if('nb' in item){
+                result.path.push([item.ob, item.nb]);
+              }
             });
             // Do something!!!
             routes.push(result);
@@ -107,7 +112,7 @@ tdviz.controller.mapController = function(options)
       setTimeout(function(){
         $.each(routes, function(idx, route){
           self.drawPath(route);
-            self.calcFootPrint(route.travelMode,route.distance,route.duration);
+          self.calcFootPrint(route.travelMode,route.distance,route.duration);
         });
       }, 1000);
     };

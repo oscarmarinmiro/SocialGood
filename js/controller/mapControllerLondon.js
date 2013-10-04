@@ -96,11 +96,12 @@ tdviz.controller.mapController = function(options)
             result.path = new Array();
             //var overview_path = google.maps.geometry.encoding.decodePath(response.routes[0].overview_polyline.points);
             $.each(response.routes[0].overview_path, function(index, item){
-              //console.log(item);
               if('qb' in item){
                 result.path.push([item.qb, item.pb]);
               }else if('nb' in item){
                 result.path.push([item.ob, item.nb]);
+              }else if('lb' in item){
+                result.path.push([item.mb, item.lb]);
               }
             });
             // Do something!!!

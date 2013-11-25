@@ -102,6 +102,10 @@ tdviz.controller.mapController = function(options)
                 result.path.push([item.ob, item.nb]);
               }else if('lb' in item){
                 result.path.push([item.mb, item.lb]);
+              }else{
+                var keys = Object.keys(item);
+                keys = keys.sort();
+                result.path.push([item[keys[1]],item[keys[0]]]);
               }
             });
             // Do something!!!
